@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+<!--    <settings>-->
+<!--        <setting name="logImpl" value="STDOUT_LOGGING"/>-->
+<!--    </settings>-->
+    <typeAliases>
+        <!--        <typeAlias type="com.tydic.pojo.UserInformation" alias="UInf"/>-->
+        <package name="com.tydic.pojo"/>
+        <!--        注意：只有扫描包后才可以使用注解-->
+    </typeAliases>
+    <mappers>
+        <package name="com.tydic.dao"/>
+<!--        <mapper resource="com/tydic/dao/BooksMapper.xml"/>-->
+<!--        <mapper resource="com/tyidc/dao/UserInfoMapper.xml"/>-->
+    </mappers>
+
+
+
+</configuration>

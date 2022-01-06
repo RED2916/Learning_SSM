@@ -1,0 +1,4 @@
+# Project exclude paths
+/out/
+/springmvc-03-t3/target/
+/ssmbuilding/target/

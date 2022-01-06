@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.tydic.service"/>
+
+    <!--    service变量-->
+    <bean id="booksServiceImpl" class="com.tydic.service.BooksServiceImpl">
+<!--        boosMapper为Spring自动扫描后实现，会直接commit-->
+        <property name="booksMapper" ref="booksMapper"/>
+        <property name="sqlSessionTemplate" ref="sqlSession"/>
+    </bean>
+
+    <bean id="userInfoServiceImpl" class="com.tydic.service.UserInfoServiceImpl">
+        <property name="userInfoMapper" ref="userInfoMapper"/>
+    </bean>
+<!--    配置事务，会进行默认配置-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+<!--    可以考虑配置aop事务支持，这里包不够-->
+<!--    产生的代理可能影响运行-->
+    <tx:advice transaction-manager="transactionManager" id="txAdvice">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:pointcut id="txPointCut" expression="execution(* com.tydic.service.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+    </aop:config>
+</beans>
